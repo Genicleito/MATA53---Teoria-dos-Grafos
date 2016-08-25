@@ -22,7 +22,7 @@ int main(){
 	
 	for(scanf("%d", &n), scanf("%d", &m); n != 0 && m != 0; scanf("%d", &n), scanf("%d", &m), k++){
 	//while(n || m){
-		int G[n][m], visitado[n], fila[n];
+		int G[n][n], visitado[n], fila[n];
 
 		/* Inicialização da Matriz de Adjacência */
 	        for(i = 0; i < n; i++){
