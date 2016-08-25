@@ -7,11 +7,11 @@ int main(){
 		int G[n][n], visitado[n], fila[n];
 
 		/* Inicialização da Matriz de Adjacência */
-		for(i = 0; i < n; i++){
-			for(j = 0; j < n; j++){
-				G[i][j] = 0;
-			}
-		}
+	        for(i = 0; i < n; i++){
+	                for(j = 0; j < n; j++){
+	                        G[i][j] = 0;
+	                }
+	        }
 
 		for(i = 0; i < m; i++){
 			scanf("%d", &u);
@@ -43,7 +43,6 @@ int main(){
 	
 		printf("Teste %d\n", k);
 		for(i = 0; i < n; i++){
-			printf("%d ", visitado[i]);
 			if(!visitado[i]){
 				printf("falha\n\n");
 				break;
