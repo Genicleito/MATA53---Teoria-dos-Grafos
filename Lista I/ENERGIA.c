@@ -66,10 +66,11 @@ int main(){
 			//printf("%d ", visitado[i]);
 			if(!visitado[i]){
 				printf("falha\n\n");
-				return 0;
+				break;
 			}
 		}
-		printf("normal\n\n");
+		if(i == n)
+			printf("normal\n\n");
 	}
 	
 	return 0;
