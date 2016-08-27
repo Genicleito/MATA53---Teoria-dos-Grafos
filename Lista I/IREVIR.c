@@ -3,7 +3,6 @@
 * Disciplina: MATA53 - Teoria dos Grafos (2016.1)
 * Universidade Federal da Bahia (UFBA)
 */
-
 #include <stdio.h>
 
 int BFS(int n, int G[n][n], int *visitado, int *fila){
