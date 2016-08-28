@@ -59,8 +59,9 @@ int main(){
 		/* Inicialização do Grafo */
 	    for(i = 0; i < c; i++){
 			G[i].visitado = 0;
+			G[i].adj = (int *)calloc(c, sizeof(int));
 		}
-		G[i].adj = (int *)calloc(c, sizeof(int));
+		//printf("G[i].adj[c] = %d\n", G[i].adj[c]);
 
 		for(i = 0; i < c; i++){
 			scanf(" %[^\n]s", G[i].nome);
@@ -73,12 +74,19 @@ int main(){
 
 			for(j = 0; strcmp(G[j].nome, c1) != 0; j++);
 			for(k = 0; strcmp(G[k].nome, c2) != 0; k++);
+// printf("Aqui1\n");
+// printf("j = %d\n", j);
+// printf("k = %d\n", k);
 
+// printf("G[j].adj[k] = %d\n", G[j].adj[k]);
+// printf("G[k].adj[j] = %d\n", G[k].adj[j]);
 			G[j].adj[k] = 1;
 			G[k].adj[j] = 1;
-
+// printf("Aqui2\n");
 		}
-
+/*		char linhaBranco[30];
+		scanf(" %[^\n]s", linhaBranco);
+*/
 		/*	BFS	*/
 		int max = 0;
 		for(i = 0; i < c; i++){
@@ -88,6 +96,7 @@ int main(){
 					max = temp;
 			}
 		}
+		printf("%d\n", max);
 	}
 	
 	return 0;
