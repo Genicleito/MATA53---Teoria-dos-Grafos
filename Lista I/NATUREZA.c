@@ -41,7 +41,7 @@ int BFS(int n, Grafo *G, int vertice){
 int main(){
 	int i, j, k, c, r;
 	
-	for(scanf("%d %d", &c, &r); c != 0 && r != 0; scanf("%d %d", &c, &r)) {
+	for(scanf("%d %d", &c, &r); c != 0 || r != 0; scanf("%d %d", &c, &r)) {
 		//int fila[c];
 		Grafo G[c];
 
