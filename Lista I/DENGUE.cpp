@@ -17,17 +17,22 @@ int BFS(int v, int *distancias){
 
 	fila.push_back(v - 1);
 	distancias[v - 1] = 0;
-	//visitados[v - 1] = 1;
+	visitados[v - 1] = 1;
 
 	while(!fila.empty()){
 		int no = fila.front();	// Visitando nó
-			visitados[no] = 1;
+		//if(!visitados[no]){
 			for(int i = 0; i < G[no].size(); i++){
 				if(!visitados[G[no][i]]){
-					fila.push_back(G[no][i]);
-					distancias[G[no][i]] = distancias[no] + 1;
+					//if(!visitados[no]){
+						fila.push_back(G[no][i]);
+						distancias[G[no][i]] = distancias[no] + 1;
+						visitados[G[no][i]] = 1;
+					//}
 				}
 			}
+			//visitados[no] = 1;
+		//}
 
 		fila.pop_front();
 		vMaisLonge = no;
@@ -40,11 +45,12 @@ int main(){
 	
 	for(cin >> n; n != 0; cin >> n, teste++) {
 		/* Inicialização do Grafo e leitura dos nomes dos */
-		int distancias[n];
+		int distancias[n], maioresDistancias[n];
 	    for(int i = 0; i < n; i++){
 			G[i].clear();
 			visitados[i] = 0;
 			distancias[i] = MAX;
+			maioresDistancias[i] = 0;
 		}
 
 		/* Leitura das relações e preencimento do grafo */
@@ -54,54 +60,32 @@ int main(){
 			G[y - 1].push_back(x - 1);
 		}
 
-		int v = BFS(1, distancias);	// Começar do vértice 0 (1 - 1)
-		/* Inicialização das distancias e dos vértices visitados */
-		int distancias2[n];
-		for(int i = 0; i < n; i++){
-			visitados[i] = 0;
-			distancias2[i] = MAX;
+		for (int i = 0; i < n; i++){
+			int v = BFS(i + 1, distancias);
+			maioresDistancias[i] = distancias[v];
+			//printf("distancia de %d para %d eh: %d\n", v + 1, i + 1, maioresDistancias[i]);
+			//printf("V = %d\n", v);
+			for (int j = 0; j < n; j++){	// Inicializar novamente para próxima chamada
+				visitados[j] = 0;
+				distancias[j] = MAX;
+			}
+		}
+		
+		int menor = MAX, resp;
+		for (int i = 0; i < n; i++){
+			if(maioresDistancias[i] < menor){
+				menor = maioresDistancias[i];
+				resp = i;
+			}
 		}
 
-		if(n != 1){		// Se for mais de um vertice para nao dar erro
-			/* Nova busca pelo vértice mais distante de v */
-			v = BFS(v + 1, distancias2);
-
-			v = distancias2[v] / 2;
-
-			printf("Teste %d\n", teste);
-			int j;
-			for(j = 0; j < n; j++){		// Se o maior caminho for ímpar
-				if(distancias[j] == v && distancias2[j] == v){
-					cout << j + 1 << endl << endl;
-					break;
-				}
-			}
-
-			if(j == n){		// Se o maior caminho for par
-				int verticeMeio = -1;
-				for(int i = 0; i < n; i++){
-					if(distancias[i] == v){
-						if(verticeMeio > 0){
-							if(distancias2[i] < distancias2[verticeMeio]){
-								verticeMeio = i;
-							}
-						}else
-							verticeMeio = i;
-					}
-				}
-				cout << verticeMeio + 1 << endl << endl;
-			}
-		}else{
-			cout << "Teste " << teste << endl << "1" << endl << endl;
-		}
-
-/*		printf("Teste %d\n", teste);
-		for(int i = 0; i < n; i++){
+		printf("Teste %d\n%d\n\n", teste, resp + 1);
+		/*for(int i = 0; i < n; i++){
 			if(distancias[i] == v){
 				cout << i + 1 << endl << endl;
 				break;
 			}
-		}
-*/	}
+		}*/
+	}
 	return 0;
 }
