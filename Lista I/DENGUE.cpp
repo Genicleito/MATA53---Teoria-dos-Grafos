@@ -21,19 +21,13 @@ int BFS(int v, int *distancias){
 
 	while(!fila.empty()){
 		int no = fila.front();	// Visitando nó
-		//if(!visitados[no]){
-			for(int i = 0; i < G[no].size(); i++){
-				if(!visitados[G[no][i]]){
-					//if(!visitados[no]){
-						fila.push_back(G[no][i]);
-						distancias[G[no][i]] = distancias[no] + 1;
-						visitados[G[no][i]] = 1;
-					//}
-				}
+		for(int i = 0; i < G[no].size(); i++){
+			if(!visitados[G[no][i]]){
+				fila.push_back(G[no][i]);
+				distancias[G[no][i]] = distancias[no] + 1;
+				visitados[G[no][i]] = 1;
 			}
-			//visitados[no] = 1;
-		//}
-
+		}
 		fila.pop_front();
 		vMaisLonge = no;
 	}
@@ -44,6 +38,7 @@ int main(){
 	int n, x, y, teste = 1;
 	
 	for(cin >> n; n != 0; cin >> n, teste++) {
+		
 		/* Inicialização do Grafo e leitura dos nomes dos */
 		int distancias[n], maioresDistancias[n];
 	    for(int i = 0; i < n; i++){
@@ -63,9 +58,9 @@ int main(){
 		for (int i = 0; i < n; i++){
 			int v = BFS(i + 1, distancias);
 			maioresDistancias[i] = distancias[v];
-			//printf("distancia de %d para %d eh: %d\n", v + 1, i + 1, maioresDistancias[i]);
-			//printf("V = %d\n", v);
-			for (int j = 0; j < n; j++){	// Inicializar novamente para próxima chamada
+			
+			/* Inicializar novamente para próxima chamada */
+			for (int j = 0; j < n; j++){
 				visitados[j] = 0;
 				distancias[j] = MAX;
 			}
@@ -80,12 +75,6 @@ int main(){
 		}
 
 		printf("Teste %d\n%d\n\n", teste, resp + 1);
-		/*for(int i = 0; i < n; i++){
-			if(distancias[i] == v){
-				cout << i + 1 << endl << endl;
-				break;
-			}
-		}*/
 	}
 	return 0;
 }
