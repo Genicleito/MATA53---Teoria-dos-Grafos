@@ -3,75 +3,89 @@
 * Disciplina: MATA53 - Teoria dos Grafos (2016.1)
 * Universidade Federal da Bahia (UFBA)
 */
-#include <vector>
+/*#include <vector>
 #include <stdio.h>
 //#include <cstdio>
-#include <set>
+#include <set>*/
+#include <bits/stdc++.h>
 
-#define MAXN 50000
+#define MAXN 31
 
 using namespace std;
 
 int n;	// Vértices
-map<strint, int> nomes;
 
-vector<int> grafo[MAXN];
-set<int> tree;	// Árvore com os vértices que tem grau de entrada igual a 0
-vector<int> resposta;
-
-int grau[MAXN];
 
 int main(){
-	scanf("%d", &n);
+	int teste = 1;
 
-	for (int i = 0; i < n; i++){
+	for(cin >> n; n != 0; cin >> n, teste++){
+		
 		string amigo;
+		map<string, int> nomes;
+		vector<int> grafo[MAXN];
+		vector<int> lista;	// Árvore com os vértices que tem grau de entrada igual a 0
+		map<int, string> resposta;
+		int grau[MAXN];
 
-		grafo[i].clear();
-		cin >> amigo;
-		nomes[amigo] = i;
-	}
+		for (int i = 0; i < n; i++){
 
-	for (int i = 0; i < n; i++){
-		int x, y;
-		scanf("%d %d", &x, &y);
+			cin >> amigo;
 
-		grau[y]++;
-		grafo[x].push_back(y);
+			nomes[amigo] = i;
+			resposta[i] = amigo;
 
-	}
-	int vEntradaZero = 0;	// Número de vértices com grau de entrada igual a 0
-	for (int i = 0; i < n; i++){
-		if(grau[i] == 0){
-			tree.insert(i);
-			vEntradaZero++;
+			grau[i] = 0;
+			grafo[i].clear();
+			lista.clear();
 		}
-	}
 
-	int sizeTree = (int) tree.size();
-	for(int i = 0; i < sizeTree; i++){
-		int vAtual = *tree.begin();
-		resposta.push_back(vAtual);
-		tree.erase(vAtual);
+		for (int i = 0; i < n; i++){
+			string nomeAmigo;//nome1;
+			int dependentes;
 
-		for (int j = 0; j < (int) grafo[vAtual].size(); j++){
-			int vertice = grafo[vAtual][j];
+			cin >> nomeAmigo >> dependentes;
 
-			grau[vertice]--;
-			if(grau[vertice] == 0){
-				tree.insert(vertice);
-				sizeTree++;
+			if(dependentes == 0){
+				lista.push_back(nomes[nomeAmigo]);
+//cout << nomeAmigo << " tem grau 0" << endl;
+			}
+
+			for(int j = 0; j < dependentes; j++){
+				string nome1;
+
+				cin >> nome1;
+
+				grafo[nomes[nome1]].push_back(nomes[nomeAmigo]);
+				grau[nomes[nomeAmigo]]++;
 			}
 		}
-	}
 
-	if ((int)resposta.size() < n) {
-		printf("*\n");
-	}else{
-		for(int i = 0; i < sizeTree; i++)
-			printf("%d ", resposta[i]);
-		printf("\n");
-	}
+		for(int i = 0; i < (int) lista.size(); i++){
+			int vAtual = lista[i];
+			//resposta.push_back(vAtual);
+			//tree.erase(vAtual);
+//cout << vAtual << " <-- vertice pai com grau = " << grau[vAtual] << endl;
+			for (int j = 0; j < (int) grafo[vAtual].size(); j++){
+				int vertice = grafo[vAtual][j];
 
+				grau[vertice]--;
+				if(grau[vertice] == 0){
+					lista.push_back(vertice);
+//cout << vertice << " vertice filho" << " com grau " << grau[vertice] << endl;
+				}
+			}
+		}
+
+		cout << "Teste " << teste << endl;
+		if ((int) lista.size() < n) {
+			printf("impossivel\n\n");
+		}else{
+			for(int i = 0; i < (int) lista.size(); i++){
+				cout << resposta[lista[i]] << " ";
+			}
+			printf("\n\n");
+		}
+	}
 	return 0;
 }
