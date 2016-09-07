@@ -40,6 +40,7 @@ void DFS(int vertice){
 			low[vertice] = d[no];
 		}
 	}
+	//tempo++;
 }
 
 bool ordenarResultado (int x, int y) {
@@ -62,7 +63,6 @@ int main(){
 			low[i] = 0;
 			pai[i] = -1;
 		}
-		qtdCriticalLinks = 0;
 		
 		for(int j = 0; j < n; j++){
 			scanf("%d (%d)", &v, &x); // Lê os vértices e arestas
@@ -74,7 +74,7 @@ int main(){
 			}
 		}
 
-		tempo = 0;
+		qtdCriticalLinks = tempo = 0;
 		for(int i = 0; i < n; i++){
 			if(d[i] == -1){
 				pai[i] = i;

@@ -3,58 +3,61 @@
 * Disciplina: MATA53 - Teoria dos Grafos (2016.1)
 * Universidade Federal da Bahia (UFBA)
 */
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
+#include <stdio.h>
+//#include <stack>
 
-#define MAXN 501
-#define MAXM 124751
+#define MAXN 500
 
-//vector< vector<int> > grafo;
-int **grafo;
-int pai[MAXN], chave[MAXN];
-vector<int> filaPrioridade;	// Talvez não precise, basta pegar o indice nesse primeiro for abaixo
+//using namespace std;
+
+int fila[MAXN];
+int custo[MAXN];
+int grafo[MAXN][MAXN];
 
 int main(){
-	int n, m, u, v, c;
-	
+	int somaCustoTotal = 0, n, m, u, v, c;
+
 	scanf("%d %d", &n, &m);
-	
-	//grafo.resize(n);
-	grafo = (int **) calloc (n, sizeof(int *));	// Aloca as linhas
 
 	for(int i = 0; i < n; i++){
-		chave[i] = MAXN + 1;
-		pai[i] = -1;
-		
-		grafo[i] = (int *) calloc (n, sizeof(int));	// Aloca as colunas
-		filaPrioridade.push_back(i);
-	}
-	for(int i = 0; i < m; i++){
-		scanf("%d %d %d", &u, &v, &c);
-		grafo[u - 1][v - 1] = c;
-	}
-	chave[0] = 0;
-/*	for(int i = 0; i < n; i++){		// Até n ou cria uma arvore ?
-		//ree.insert(i);
-		filaPrioridade.push_back(i);
-	}*/
-	int ini = 0;
-	while(!fila.empty()){
-		//u = filaPrioridade.front();
-		u = filaPrioridade[ini];
-		filaPrioridade[ini] = -1;	// pop_front()
-		ini++;
-		//filaPrioridade.pop_front();
-		for(int i = 0; i < n; i++){
-			int pesoUI = grafo[u][i];
-			if(pesoUI){
-				if((filaPrioridade[i] != -1) && pesoUI < chave[i]){
-					chave[i] = pesoUI;
-					pai[i] = u;
-				}
-			}
+		fila[i] = 0;
+		custo[i] = MAXN;
+
+		for(int j = 0; j < n; j++){		// Inicializar o grafo
+			grafo[i][j] = 0;			// O grafo guarda os pesos de um vertice a seu adjacente
 		}
 	}
 
+	for(int i = 0; i < m; i++){
+		scanf("%d %d %d", &u, &v, &c);
+		grafo[u - 1][v - 1] = c;
+		grafo[v - 1][u - 1] = c;
+
+	}
+
+	custo[0] = 0;
+
+	for (int i = 0; i < n; i++){
+		int no = -1;
+
+		for (int j = 0; j < n; j++){
+			if(!fila[j] && (no == -1 || custo[j] < custo[no]))
+				no = j;
+		}
+		fila[no] = 1;	// Fila que guarda o nó desse instante de execucão
+
+		somaCustoTotal += custo[no];
+
+		for(int j = 0; j < n; j++){
+			if(grafo[no][j]){		// Se for adj a j
+				if(custo[j] > grafo[no][j])
+					custo[j] = grafo[no][j];
+			}
+		}
+
+	}
+	printf("%d\n", somaCustoTotal);
 
 	return 0;
 }
