@@ -97,5 +97,10 @@ int main(){
 		//criticalLinks.clear();
 	}
 
+	free(low);
+	free(d);
+	free(pai);
+	free(criticalLinks);
+	
 	return 0;
 }
