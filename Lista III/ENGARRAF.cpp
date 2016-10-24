@@ -48,8 +48,8 @@ void dijkstra(int s, int n){
 			break;
 		}
 
-		for(int i = 0; i < n; i++){	//	Lista de Adj
-			if(distancia[i] > distancia[no] + grafo[no][i])
+		for(int i = 0; i < n; i++){	//	Lista de Ad
+j			if(distancia[i] > distancia[no] + grafo[no][i])
 				distancia[i] = distancia[no] + grafo[no][i];
 		}
 	}
